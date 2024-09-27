@@ -1,0 +1,18 @@
+##Place file in the following destination: /etc/systemd/system/ ###
+
+[Unit]
+Description=LOTIC machine learning program for migratory fish detection
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 /home/USER/Artemis/execute.py rtsp://<USERNAME>:<PASSWORD>@IPADDRESS:PORT/h264Preview_01_sub models/model.pt 0.6 0 SITENAME -99.99999 -99.99999 ./outfile/ --output_with_bounding_boxes no 
+WorkingDirectory=/home/USER/Artemis
+StandardOutput=file:/home/USER/Artemis/errorLogs/main_output.log
+StandardError=file:/home/USER/Artemis/errorLogs/error_file.log
+Restart=always
+RestartSec=120
+User=USER
+
+[Install]
+WantedBy=multi-user.target

@@ -37,8 +37,11 @@ class output:
         return file_prefix
 
     def jsonOut(self, file_prefix, bboxes, confidence, predicted_class):
-        filename = os.path.join(self.output, str(file_prefix + '.json'))
+        #filename = os.path.join(self.output, str(file_prefix + '.json'))
+        counter = 0
         for boxes, conf, pred_class in zip(bboxes, confidence, predicted_class):
+            filename = os.path.join(self.output, str(file_prefix + '_' + str(counter) + '.json'))
+            counter += 1
             json_data = {
                 "datetime":str(datetime.now()),
                 "site":self.site,
