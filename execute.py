@@ -45,7 +45,6 @@ def main():
             break
         #frame = cv2.resize(frame, (640, 480))
         boxes, conf, pred_class = i.detection(frame)
-        print(conf)
         file_prefix = o.imageOut(frame, boxes, conf, pred_class, 
                                  args.output_with_bounding_boxes)
         o.jsonOut(file_prefix, boxes, conf, pred_class)

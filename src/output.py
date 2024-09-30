@@ -20,7 +20,6 @@ class output:
                  predicted_class, bbox_output):
         time = datetime.now().strftime("%m-%d-%Y-%H-%M-%S-%f")
         file_prefix = time + '_' + self.site
-        print(file_prefix)
         filename = os.path.join(self.output, str(file_prefix + '.png'))
         if bbox_output == 'yes' and max(confidence, default = 0) >= self.conf:
             for box, conf, pred_class in zip(bboxes, confidence, predicted_class):
