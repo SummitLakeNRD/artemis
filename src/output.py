@@ -1,10 +1,11 @@
 import os
 import cv2
 import json
+import psycopg
 from datetime import datetime
 
 
-class output:
+class outputFiles:
     def __init__(self, sitename, output_directory, conf_threshold, 
                  latitude, longitude):
         self.site = sitename
@@ -37,7 +38,6 @@ class output:
         return file_prefix
 
     def jsonOut(self, file_prefix, bboxes, confidence, predicted_class):
-        #filename = os.path.join(self.output, str(file_prefix + '.json'))
         counter = 0
         for boxes, conf, pred_class in zip(bboxes, confidence, predicted_class):
             filename = os.path.join(self.output, str(file_prefix + '_' + str(counter) + '.json'))
@@ -58,5 +58,54 @@ class output:
             with open("{}".format(filename), 'w') as f:
                 json.dump(json_data, f)
 
+class outputDatabase:        
+    def __init__(self, sitename, conf_threshold, 
+                 latitude, longitude):
+        self.site = sitename
+        self.conf = conf_threshold
+        self.latitude = latitude
+        self.longitude = longitude
+        self.color = (0, 255, 255)
+        self.font = cv2.FONT_HERSHEY_SIMPLEX
+
+    def postgresAppend(self, frame, bboxes, confidence, 
+                       predicted_class, bbox_output):
+        # Conditional formating of image and converting to byte array
+        date = str(datetime.now())
+        if bbox_output == 'yes' and max(confidence, default = 0) >= self.conf:
+            for box, conf, pred_class in zip(bboxes, confidence, predicted_class):
+                label = "%s" % (pred_class + ": " + str(round(conf, 2)))
+                cv2.putText(frame, label, (round(box[0]), round(box[1]) - 10), 
+                            self.font, 1, self.color, 1) 
+                cv2.rectangle(frame, (round(box[0]), round(box[1])), 
+                              (round(box[2]), round(box[3])),
+                              self.color, 2)
+                image_bytea = bytearray(frame)
+        elif max(confidence, default = 0) >= self.conf:
+                image_bytea = bytearray(frame)
+        else:
+            pass
+        # Create connection tunnel to postgres database
+        with psycopg.connect(
+                dbname="<DBNAME>", 
+                user="<USERNAME>",
+                password="<PASSWORD>",
+                host='<HOST>',
+                port='<PORT>') as conn:
+            # Open a cursor to perform database operations
+            with conn.cursor() as cur:
+                for boxes, conf, pred_class in zip(bboxes, confidence, predicted_class):
+                    # Pass data to fill query placeholders and let Psycopg perform
+                    # the correct conversion 
+                    cur.execute(
+                        """INSERT INTO <TABLE_NAME>
+                        (datetime, site, class, confidence, x1, y1,
+                        x2, y2, latitude, longitude, image) VALUES 
+                        (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                        (date, self.site, pred_class, conf,
+                         boxes[0], boxes[1], boxes[2], boxes[3],
+                         self.latitude, self.longitude, image_bytea))
+                    # Make the changes to the database persistent
+                    conn.commit()
 
 
