@@ -80,9 +80,9 @@ class outputDatabase:
                 cv2.rectangle(frame, (round(box[0]), round(box[1])), 
                               (round(box[2]), round(box[3])),
                               self.color, 2)
-                image_bytea = bytearray(frame)
+                image_bytea = cv2.imencode('.jpg', frame)[1].tobytes()
         elif max(confidence, default = 0) >= self.conf:
-                image_bytea = bytearray(frame)
+                image_bytea = cv2.imencode('.jpg', frame)[1].tobytes()
         else:
             pass
         # Create connection tunnel to postgres database
