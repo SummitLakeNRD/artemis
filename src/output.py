@@ -87,18 +87,18 @@ class outputDatabase:
             pass
         # Create connection tunnel to postgres database
         with psycopg.connect(
-                dbname="<DBNAME>", 
-                user="<USERNAME>",
-                password="<PASSWORD>",
-                host='<HOST>',
-                port='<PORT>') as conn:
+                dbname="postgres", 
+                user="postgres",
+                password="password",
+                host='localhost',
+                port='5432') as conn:
             # Open a cursor to perform database operations
             with conn.cursor() as cur:
                 for boxes, conf, pred_class in zip(bboxes, confidence, predicted_class):
                     # Pass data to fill query placeholders and let Psycopg perform
                     # the correct conversion 
                     cur.execute(
-                        """INSERT INTO <TABLE_NAME>
+                        """INSERT INTO game_camera
                         (datetime, site, class, confidence, x1, y1,
                         x2, y2, latitude, longitude, image) VALUES 
                         (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
