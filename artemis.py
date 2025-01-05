@@ -50,7 +50,7 @@ def main():
     # Run detection on stream
     while vs.keep_running():
         # Imports frame from video source queue 
-        frame = fi.grabFrame() 
+        frame = fi.grabFrame()
         if frame is None:
             break
         # Performs object detection model to detect animals, people, and vehicles

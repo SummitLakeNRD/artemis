@@ -87,11 +87,11 @@ class outputDatabase:
             pass
         # Create connection tunnel to postgres database
         with psycopg.connect(
-                dbname="postgres", 
-                user="postgres",
-                password="password",
-                host='localhost',
-                port='5432') as conn:
+                dbname="<DBNAME>", 
+                user="<USER>",
+                password="<PASSWORD>",
+                host='<HOST>',
+                port='<PORT>') as conn:
             # Open a cursor to perform database operations
             with conn.cursor() as cur:
                 for boxes, conf, pred_class in zip(bboxes, confidence, predicted_class):
@@ -104,7 +104,8 @@ class outputDatabase:
                         (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
                         (date, self.site, pred_class, conf,
                          boxes[0], boxes[1], boxes[2], boxes[3],
-                         self.latitude, self.longitude, image_bytea))
+                         self.latitude, self.longitude, 
+                         psycopg.Binary(image_bytea)))
                     # Make the changes to the database persistent
                     conn.commit()
 
