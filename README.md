@@ -28,25 +28,25 @@ GPU backend capabilities; the program will dynamically adapt.
 All input parameters can be found using the `python -h` flag 
 
 ### Inputs
-*Video Source*: Can be either an rtsp url to a video stream or file path to video.
-*Model*: File path to Megadetector (or custom) model.
-*Confidence Threshold*: 0-1 decimal value for confidence to flag as detection.
+*Video Source*: Can be either an rtsp url to a video stream or file path to video.\
+*Model*: File path to Megadetector (or custom) model.\
+*Confidence Threshold*: 0-1 decimal value for confidence to flag as detection.\
 *GPU Device*: GPUs have device numbers 0-whatever depending upon how many you have,
-please select accordingly. SLPT tribe will use GPU block 0-3 for inference.
-*Site Name*: Name of game camera site.
-*Latitude*: Latitude of game camera.
-*Longitude*: Longitude of game camera.
+please select accordingly. SLPT tribe will use GPU block 0-3 for inference.\
+*Site Name*: Name of game camera site.\
+*Latitude*: Latitude of game camera.\
+*Longitude*: Longitude of game camera.\
 *Output Type*: Default is 'postgres' and will append to database, anything else
-entered will output text and image files.
+entered will output text and image files.\
 *Output with Bounding Boxes*: Default is 'no' and images will not have boxes
-drawn around detections. 'yes' will draw a box around detections.
+drawn around detections. 'yes' will draw a box around detections.\
 
 ### Outputs
 *PostgreSQL*: Datetime, site name, class, confidence of inference, bounding box
 coordinates (potentially useful for future training data), latitude, longitude,
-and the image encoded into a byte array.
+and the image encoded into a byte array.\
 *Files*: Same tabular data as above written into a json file, but the image is
-written to an individual png file with the same filename prefix as the json.
+written to an individual png file with the same filename prefix as the json.\
 
 ## How To Use
 Issue the following command in your terminal to clone the repository:
@@ -55,7 +55,7 @@ git clone https://github.com/SummitLakeNRD/Artemis.git
 ```
 *Note: There might be an issue with GitHub large file storage (LFS), if that is
 the case it might be better to simply download the zip file and send the file
-to the desired location.*
+to the desired location.*\
 
 You will then need to create a python virtual environment to install the correct
 dependencies.
