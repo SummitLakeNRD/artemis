@@ -1,18 +1,17 @@
 # Artemis
-**Author**: Keane Flynn\
-**Organization**: Summit Lake Paiute Tribe\
-**Date**: 01/06/2025\
+**Author**: Keane Flynn
+**Organization**: Summit Lake Paiute Tribe
+**Date**: 01/06/2025
 **Contact**: kmflynn24@berkeley.edu
 
-![Coyote caught in front of SLPT game camera](https://github.com/SummitLakeNRD/Artemis/blob/main/media/output_example.png)
 
 ## Overview
-Artemis is real-time IP camera based (will also work with video files) game cam
-program written in python that leverages the YOLOv5 model "Megadetector" to
-summarize wildlife findings. This program is capable of outputting tabular data
-to either individal json files or to a PostgreSQL database. If the former is
-selected, images and files will be output under the same filename prefix. If the
-latter is selected summarized data and images (broken into byte array format)
+Artemis is real-time IP camera based (will also work with video files) game cam\
+program written in python that leverages the YOLOv5 model "Megadetector" to\
+summarize wildlife findings. This program is capable of outputting tabular data\
+to either individal json files or to a PostgreSQL database. If the former is\
+selected, images and files will be output under the same filename prefix. If the\
+latter is selected summarized data and images (broken into byte array format)\
 will all be appended to the selected Postgres database table.
 
 ## Hardware
