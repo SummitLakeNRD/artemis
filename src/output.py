@@ -2,6 +2,7 @@ import os
 import cv2
 import json
 import psycopg
+from uuid import uuid4
 from datetime import datetime
 
 
@@ -99,10 +100,10 @@ class outputDatabase:
                     # the correct conversion 
                     cur.execute(
                         """INSERT INTO game_camera
-                        (datetime, site, class, confidence, x1, y1,
+                        (uuid, datetime, site, class, confidence, x1, y1,
                         x2, y2, latitude, longitude, image) VALUES 
                         (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
-                        (date, self.site, pred_class, conf,
+                        (uuid4(), date, self.site, pred_class, conf,
                          boxes[0], boxes[1], boxes[2], boxes[3],
                          self.latitude, self.longitude, 
                          psycopg.Binary(image_bytea)))
